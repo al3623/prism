@@ -39,7 +39,7 @@ var levels = {
 		res: 15,
 		start: [[8.0,8.0]],
 		laser: [[8.0,0.0,3]],
-		wall: [[3,1]],
+		wall: [[8,5]],
 		target: [[8.0,14.0,white]],
 		grid: [[5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
 			   [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
@@ -65,16 +65,23 @@ function drawSplitLasers() {
 
 function drawLasers(x,y,dir) {
 	ctx.beginPath();
+	ctx.fillStyle = red;
+	ctx.arc((x + 0.5)*(480/levelData.res), (y + 0.5)*(480/levelData.res),
+		5,0,2 * Math.PI);
+	ctx.fill();
+	ctx.closePath();
+	
+	ctx.beginPath();
 	ctx.strokeStyle = red;
 	ctx.lineWidth = 2;
 	ctx.moveTo((x + 0.5)*(480/levelData.res),(y + 0.5)*(480/levelData.res));
 	
 	final_x = undefined;
 	final_y = undefined;
-	blocking_obj = undefined;
-	// check for walls
-	// check for block
-	// check for lasers
+	in_y = false;
+	in_x = false;
+	x_dev = 0.5;
+	y_dev = 0.5;
 		
 	if (dir === 1) {		// up
 		final_x = x;
@@ -89,18 +96,85 @@ function drawLasers(x,y,dir) {
 		final_x = 0;
 		final_y = y;
 	}
-	ctx.lineTo((final_x + 0.5)*(480/levelData.res),
-		(final_y + 0.5)*(480/levelData.res));
+	// check for walls
+	for (i = 0; i < walls.length; i++) {
+		wall = walls[i];
+		if (final_x > x) {
+			if (wall[0] >= x && wall[0] <= final_x) {
+				in_x = true;
+			}
+		} else {
+			if (wall[0] <= x && wall[0] >= final_x) {
+				in_x = true;
+			}
+		}
+		if (final_y > y) {
+			if (wall[1] >= y && wall[1] <= final_y) {
+				in_y = true;
+			}
+		} else {
+			if (wall[1] <= y && wall[1] >= final_y) {
+				in_y = true;
+			}
+		}
+		if (in_x && in_y) {
+			final_x = wall[0];
+			final_y = wall[1];
+			blocking_obj = 0;
+			if (dir === 1 || dir === 3) {
+				y_dev = 0;
+			}
+			if (dir === 2 || dir === 4) {
+				x_dev = 0;
+			}
+		}
+		in_y = false;
+		in_x = false;
+	}
+
+	// check for block
+	block = position[0];
+	if (final_x > x) {
+		if (block[0] >= x && block[0] <= final_x) {
+			in_x = true;
+		}
+	} else {
+		if (block[0] <= x && block[0] >= final_x) {
+			in_x = true;
+		}
+	}
+	if (final_y > y) {
+		if (block[1] >= y && block[1] <= final_y) {
+			in_y = true;
+		}
+	} else {
+		if (block[1] <= y && block[1] >= final_y) {
+			in_y = true;
+		}
+	}
+	if (in_x && in_y) {
+		final_x = block[0];
+		final_y = block[1];
+		if (dir === 1 || dir === 3) {
+			y_dev = 0.25;
+		}
+		if (dir === 2 || dir === 4) {
+			x_dev = 0.25;
+		}
+	}
+	in_y = false;
+	in_x = false;
+
+
+
+	// check for lasers
+	
+	ctx.lineTo((final_x + x_dev)*(480/levelData.res),
+		(final_y + y_dev)*(480/levelData.res));
 
 	ctx.stroke();
 	ctx.closePath();
 
-	ctx.beginPath();
-	ctx.fillStyle = red;
-	ctx.arc((x + 0.5)*(480/levelData.res), (y + 0.5)*(480/levelData.res),
-		5,0,2 * Math.PI);
-	ctx.fill();
-	ctx.closePath();
 }
 
 function drawGame() {
