@@ -37,7 +37,7 @@ var colors = scheme4;
 var levels = {
 		level1: {
 		res: 15,
-		start:	[[8.0,8.0]],
+		start:	[8.0,8.0],
 		laser:	[[8.0,0.0,3]],
 		wall:	[[8,5]],
 		target:	[[8.0,14.0,white]],
@@ -118,7 +118,7 @@ function drawLasers(x,y,dir) {
 	}
 
 	// check for block
-	block = position[0];
+	block = position;
 	if (final_x > x) {
 		if (block[0] >= x && block[0] <= final_x) {
 			in_x = true;
@@ -171,8 +171,8 @@ function drawGame() {
 	}
 
 	//draw block
-	drawBlock(Math.floor(position[0][0]), 
-		Math.floor(position[0][1]), levelData.res);
+	drawBlock(Math.floor(position[0]), 
+		Math.floor(position[1]), levelData.res);
 
 	// draw lasers
 	for (i = 0; i < lasers.length; i++) {
@@ -183,7 +183,7 @@ function drawGame() {
 
 function loadLevel(level) {
 	levelData = levels[level];
-	position = levelData.start.slice();
+	position = levelData.start;
 	walls = levelData.wall.slice();
 	lasers = levelData.laser.slice();
 }
@@ -244,18 +244,18 @@ function update(timestamp) {
 }
 
 function updatePositions() {
-	for (c = 0; c < position.length; c++) {
-		var cube = position[0];	
+	for (c = 0; c < 1; c++) {
+		var cube = position;	
 		var x = cube[0];
 		var y = cube[1];
 		if (keys[0] === 1 && x > 0)  {		// left
-			position[0][0] -= 1;
+			position[0] -= 1;
 		} else if (keys[1] === 1 && y > 0)  {	// up
-			position[0][1] -= 0.25;
+			position[1] -= 0.25;
 		} else if (keys[2] === 1 && x < levelData.res-1)  {	// right
-			position[0][0] += 1;
+			position[0] += 1;
 		} else if (keys[3] === 1 && y < levelData.res-1) {	// down
-			position[0][1] += 0.25;
+			position[1] += 0.25;
 		} else {
 			
 		}
