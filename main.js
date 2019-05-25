@@ -2,7 +2,6 @@ var ctx = document.getElementById("canvas").getContext("2d");
 
 var levelLData = null;
 var position = [];
-var gridstate = [];
 var walls = [];
 var lasers = [];
 
@@ -41,22 +40,7 @@ var levels = {
 		laser: [[8.0,0.0,3]],
 		wall: [[8,5]],
 		target: [[8.0,14.0,white]],
-		grid: [[5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
-			   [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
-			   [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
-			   [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
-			   [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
-			   [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
-			   [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
-			   [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
-			   [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
-			   [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
-			   [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
-			   [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
-			   [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
-			   [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
-			   [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5]], 
-			}
+		}
 }
 
 function drawSplitLasers() {
@@ -198,7 +182,6 @@ function drawGame() {
 
 function loadLevel(level) {
 	levelData = levels[level];
-	gridstate = levelData.grid.slice();
 	position = levelData.start.slice();
 	walls = levelData.wall.slice();
 	lasers = levelData.laser.slice();
