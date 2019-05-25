@@ -4,6 +4,7 @@ var levelLData = null;
 var position = [];
 var walls = [];
 var lasers = [];
+var targets = [];
 
 var lastFrameTime = 0;
 var timedelta = 0;
@@ -36,10 +37,10 @@ var colors = scheme4;
 var levels = {
 		level1: {
 		res: 15,
-		start: [[8.0,8.0]],
-		laser: [[8.0,0.0,3]],
-		wall: [[8,5]],
-		target: [[8.0,14.0,white]],
+		start:	[[8.0,8.0]],
+		laser:	[[8.0,0.0,3]],
+		wall:	[[8,5]],
+		target:	[[8.0,14.0,white]],
 		}
 }
 
