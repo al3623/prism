@@ -8,7 +8,7 @@ var lasers = [];
 
 var lastFrameTime = 0;
 var timedelta = 0;
-var framestep = 1000/60;
+var framestep = 1000/10;
 var startScreenInt = 0;
 
 var onStartScreen = true;
@@ -264,31 +264,14 @@ function updatePositions() {
 		var cube = position[0];	
 		var x = cube[0];
 		var y = cube[1];
-		var currColor = gridstate[x][y];
-		if (keys[0] === 1) {		// left
-			if (x > 0) {
-				if (gridstate[x-1][y] === currColor) {
-					position[0][0] -= 1;
-				}
-			}
-		} else if (keys[1] === 1) {	// up
-			if (y > 0) {
-				if (gridstate[x][y-1] === currColor) {
-					position[0][1] -= 0.25;
-				}
-			}
-		} else if (keys[2] === 1) {	// right
-			if (x < levelData.res-1) {
-				if (gridstate[x+1][y] === currColor) {
-					position[0][0] += 1;
-				}
-			}
-		} else if (keys[3] === 1) {	// down
-			if (y < levelData.res-1) {
-				if (gridstate[x][y+1] === currColor) {
-					position[0][1] += 0.25;
-				}
-			}
+		if (keys[0] === 1 && x > 0)  {		// left
+			position[0][0] -= 1;
+		} else if (keys[1] === 1 && y > 0)  {	// up
+			position[0][1] -= 0.25;
+		} else if (keys[2] === 1 && x < levelData.res-1)  {	// right
+			position[0][0] += 1;
+		} else if (keys[3] === 1 && y < levelData.res-1) {	// down
+			position[0][1] += 0.25;
 		} else {
 			
 		}
