@@ -8,7 +8,7 @@ var targets = [];
 
 var lastFrameTime = 0;
 var timedelta = 0;
-var framestep = 1000/10;
+var framestep = 1000/1;
 var startScreenInt = 0;
 
 var onStartScreen = true;
@@ -251,11 +251,11 @@ function updatePositions() {
 		if (keys[0] === 1 && x > 0)  {		// left
 			position[0] -= 1;
 		} else if (keys[1] === 1 && y > 0)  {	// up
-			position[1] -= 0.25;
+			position[1] -= 1;
 		} else if (keys[2] === 1 && x < levelData.res-1)  {	// right
 			position[0] += 1;
 		} else if (keys[3] === 1 && y < levelData.res-1) {	// down
-			position[1] += 0.25;
+			position[1] += 1;
 		} else {
 			
 		}
