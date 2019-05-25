@@ -30,6 +30,7 @@ var red = "#FC583F";
 var white = "#FFFFFF";
 var egg = "#FDF2E1";
 var grey = "#808080";
+var black = "#000000";
 var scheme4 = [navy,aqua,tea,gold,red,white,egg,grey];
 var colors = scheme4;
 
@@ -40,7 +41,7 @@ var levels = {
 		start:	[8.0,8.0],
 		laser:	[[8.0,0.0,3]],
 		wall:	[[8,5]],
-		target:	[[8.0,14.0,white]],
+		target:	[[8.0,10.0,grey]],
 		}
 }
 
@@ -162,30 +163,47 @@ function drawLasers(x,y,dir) {
 
 }
 
+function drawTarget(x,y,color) {
+	ctx.beginPath();
+	ctx.fillStyle = color;
+	ctx.arc((x + 0.5)*(480/levelData.res), (y + 0.5)*(480/levelData.res),
+		15,0,2 * Math.PI);
+	ctx.fill();
+	ctx.closePath();
+}
+
 function drawGame() {
 	loadLevel("level1");	
-	// draw walls
-	for (i = 0; i < walls.length; i++) {
-		cell = walls[i];
-		drawBack(cell[0],cell[1],levelData.res,grey);
+	// draw lasers
+	for (i = 0; i < lasers.length; i++) {
+		drawLasers(lasers[i][0],lasers[i][1],
+			lasers[i][2]);
 	}
 
 	//draw block
 	drawBlock(Math.floor(position[0]), 
 		Math.floor(position[1]), levelData.res);
 
-	// draw lasers
-	for (i = 0; i < lasers.length; i++) {
-		drawLasers(lasers[i][0],lasers[i][1],
-			lasers[i][2]);
+	// draw walls
+	for (i = 0; i < walls.length; i++) {
+		cell = walls[i];
+		drawBack(cell[0],cell[1],levelData.res,grey);
+	}
+
+	// draw targets
+	for (i = 0; i < targets.length; i++) {
+		targ = targets[i];
+		drawTarget(targ[0],targ[1],targ[2]);
 	}
 }
+
 
 function loadLevel(level) {
 	levelData = levels[level];
 	position = levelData.start;
 	walls = levelData.wall.slice();
 	lasers = levelData.laser.slice();
+	targets = levelData.target;
 }
 
 function drawStartScreen(index) {
