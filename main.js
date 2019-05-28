@@ -15,13 +15,6 @@ var onStartScreen = true;
 var directions = {up: 1, right: 2, down: 3, left: 4};
 var keys = [0,0,0,0]; //left, up, right, down
 
-// dark grey, white, light grey, pale pink, dusty pink
-var scheme1 = ["#424B54","#FFFFFF","#93A8AC","#E2B4BD","#9B6A6C","#000000"];
-// white, tan, golden yellow, dusty pink, muted purple
-var scheme2 = ["#FFF4EC","#E7CFBC","#F2B880","#C98686","#966B9D","#000000"];
-// periwinkle, white blue, seafoam, pink, light blue
-var scheme3 = ["#83BCFF","#E1EFF6","#80EAE8","#ECCBD9","#97D2FB","#FFFFFF"];
-
 var navy = "#184E63";
 var aqua = "#0EC6B9";
 var tea = "#6FB181";
@@ -38,6 +31,7 @@ var colors = scheme4;
 var levels = {
 		level1: {
 		res: 15,
+		message: "Sometimes you just need to get out of your own way.",
 		start:	[8.0,8.0],
 		laser:	[[8.0,0.0,3]],
 		wall:	[[8,5]],
@@ -262,7 +256,6 @@ function update(timestamp) {
 }
 
 function updatePositions() {
-	for (c = 0; c < 1; c++) {
 		var cube = position;	
 		var x = cube[0];
 		var y = cube[1];
@@ -277,7 +270,6 @@ function updatePositions() {
 		} else {
 			
 		}
-	}	
 }
 
 function clear(color) {
