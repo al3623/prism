@@ -27,6 +27,10 @@ var black = "#000000";
 var scheme4 = [navy,aqua,tea,gold,red,white,egg,grey];
 var colors = scheme4;
 
+var me = {
+	currentPos: [],
+	travelled: 0,
+}
 
 var levels = {
 		level1: {
@@ -113,28 +117,28 @@ function drawLasers(x,y,dir) {
 	}
 
 	// check for block
-	block = position;
+	block = me.currentPos;
 	if (final_x > x) {
-		if (block[0] >= x && block[0] <= final_x) {
+		if (me.currentPos[0] >= x && me.currentPos[0] <= final_x) {
 			in_x = true;
 		}
 	} else {
-		if (block[0] <= x && block[0] >= final_x) {
+		if (me.currentPos[0] <= x && me.currentPos[0] >= final_x) {
 			in_x = true;
 		}
 	}
 	if (final_y > y) {
-		if (block[1] >= y && block[1] <= final_y) {
+		if (me.currentPos[1] >= y && me.currentPos[1] <= final_y) {
 			in_y = true;
 		}
 	} else {
-		if (block[1] <= y && block[1] >= final_y) {
+		if (me.currentPos[1] <= y && me.currentPos[1] >= final_y) {
 			in_y = true;
 		}
 	}
 	if (in_x && in_y) {
-		final_x = block[0];
-		final_y = block[1];
+		final_x = me.currentPos[0];
+		final_y = me.currentPos[1];
 		if (dir === 1 || dir === 3) {
 			y_dev = 0.25;
 		}
@@ -144,8 +148,6 @@ function drawLasers(x,y,dir) {
 	}
 	in_y = false;
 	in_x = false;
-
-
 
 	// check for lasers
 	
@@ -194,6 +196,8 @@ function drawGame() {
 
 function loadLevel(level) {
 	levelData = levels[level];
+	me.currentPos = levelData.start;
+	me.travelled = 0;
 	position = levelData.start;
 	walls = levelData.wall.slice();
 	lasers = levelData.laser.slice();
@@ -237,7 +241,7 @@ function update(timestamp) {
 	timedelta += timestamp - lastFrameTime;
 	lastFrameTime = timestamp;
 
-	if (timedelta < 1000 && onStartScreen) {
+	if (timedelta < 600 && onStartScreen) {
 		window.requestAnimationFrame(update);
 	} else {
 		if (onStartScreen) {
