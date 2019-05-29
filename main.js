@@ -7,8 +7,8 @@ var startScreenInt = 0;
 
 var lastFrameTime = 0;
 var timedelta = 0;
-var speed = 0.009;
-var epsilon = 0.009;
+var speed = 0.006;
+var epsilon = 0.006;
 var drift = false;
 var driftDist = 0;
 var driftDir = -1;
@@ -39,6 +39,12 @@ var levels = {
 		res: 15,
 		startX: 8.0,
 		startY: 8.0,
+		// 0 -> space
+		// 1 -> wall
+		// 2 -> up laser
+		// 3 -> right laser
+		// 4 -> down laser
+		// 5 -> left laser
 		levelgrid: [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 					[0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
 					[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -58,8 +64,7 @@ var levels = {
 }
 
 function drawGame() {
-		drawGrid();
-
+	drawGrid();
 	drawMe(me.currX, me.currY, levelData.res);
 }
 
@@ -83,7 +88,7 @@ function drawGrid() {
 				ctx.fillStyle = grey;
 				ctx.fill();
 				ctx.closePath();
-			} else {
+			} /* else {
 				ctx.beginPath();
 				ctx.rect(i*(480/levelData.res),j*(480/levelData.res), 
 						(480/levelData.res), (480/levelData.res));
@@ -94,7 +99,7 @@ function drawGrid() {
 				}
 				ctx.fill();
 				ctx.closePath();
-			}
+			}*/
 		}
 	}
 }
@@ -148,11 +153,13 @@ function updatePositions(delta) {
 		x = me.currX;
 		y = me.currY;
 		if ((keys[0] === 1 
-				|| (drift && driftDir === 0)) && x > 0)  {		// left
+				|| (drift && driftDir === 0)) 
+				&& x > 0)  {		// left
 			driftDist -= delta * speed;
 			me.currX -= delta * speed;
 		} else if ((keys[1] === 1 
-				|| (drift && driftDir === 1)) && y > 0)  {	// up
+				|| (drift && driftDir === 1)) 
+				&& y > 0)  {	// up
 			driftDist -= delta * speed;
 			me.currY -= delta * speed;
 		} else if ((keys[2] === 1 
@@ -176,7 +183,20 @@ function updatePositions(delta) {
 			driftDist = 0;
 			driftDir = -1;
 		}
-	
+
+		if (
+		(keys[0] === 1 || keys[1] === 1 || driftDir === 0 || driftDir === 1)
+				&& grid[Math.floor(me.currX)][Math.floor(me.currY)] !== 0) {
+			me.currX = x;
+			me.currY = y;
+		}
+		if (
+		(keys[2] === 1 || keys[3] === 1 || driftDir === 2 || driftDir === 3)
+				&& grid[Math.ceil(me.currX)][Math.ceil(me.currY)] !== 0) {
+			me.currX = x;
+			me.currY = y;
+		}
+
 }
 
 function clear(color) {
