@@ -177,8 +177,8 @@ function drawGame() {
 	}
 
 	//draw block
-	drawBlock(Math.floor(position[0]), 
-		Math.floor(position[1]), levelData.res);
+	drawBlock(Math.floor(me.currentPos[0]), 
+		Math.floor(me.currentPos[1]), levelData.res);
 
 	// draw walls
 	for (i = 0; i < walls.length; i++) {
@@ -196,7 +196,7 @@ function drawGame() {
 
 function loadLevel(level) {
 	levelData = levels[level];
-	me.currentPos = levelData.start;
+	me.currentPos = levelData.start.slice();
 	me.travelled = 0;
 	position = levelData.start;
 	walls = levelData.wall.slice();
