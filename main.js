@@ -129,7 +129,7 @@ function centerMe(dir) {
 		dist = me.currX - goalX;
 	} else if (dir === 1) {		// up
 		goalY = Math.floor(me.currY);
-		dist = me.currY - me.currY;
+		dist = me.currY - goalY;
 	} else if (dir === 2) {		// right
 		goalX = Math.ceil(me.currX);
 		dist = goalX - me.currX;
