@@ -39,7 +39,8 @@ var levels = {
 		startX: 8.0,
 		startY: 8.0,
 		// 0 is aigu, 1 is grave
-		levelmirrors: [[3,3,0]],
+		levelmirrors: [[3.0,3.0,0]],
+		levelprisms: [[10.0,10.0]],
 		// 0 -> space
 		// 1 -> wall
 		// 2 -> up laser
@@ -77,6 +78,25 @@ function loadLevel(level) {
 	drawGrid();
 }
 
+function drawLaserPath(x,y,dir,color) {
+	goalX = x;
+	goalY = y;
+	if (dir === 0) {			// left
+		goalX = 0;
+	} else if (dir === 1) {		// up
+		goalY = 0;
+	} else if (dir === 2) {		// right
+		goalX = levelData.res-1;
+	} else {					// down
+		goalY = levelData.res-1;
+	}
+	// walls
+	// lasers
+	// me
+	// mirrors
+	// prisms
+}
+
 function drawGrid() {
 	for (i = 0; i < levelData.res; i++) {
 		for (j = 0; j < levelData.res; j++) {
@@ -94,6 +114,7 @@ function drawGrid() {
 				ctx.fillStyle = red;
 				ctx.fill();
 				ctx.closePath();
+				dir = grid[i][j] - 2;
 			}
 		}
 	}
