@@ -38,13 +38,15 @@ var levels = {
 		res: 15,
 		startX: 8.0,
 		startY: 8.0,
+		// 0 is aigu, 1 is grave
+		levelmirrors: [[3,3,0]],
 		// 0 -> space
 		// 1 -> wall
 		// 2 -> up laser
 		// 3 -> right laser
 		// 4 -> down laser
 		// 5 -> left laser
-		levelgrid: [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+		levelgrid: [[0,0,0,0,0,0,0,0,4,0,0,0,0,0,0],
 					[0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
 					[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 					[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -78,28 +80,24 @@ function loadLevel(level) {
 function drawGrid() {
 	for (i = 0; i < levelData.res; i++) {
 		for (j = 0; j < levelData.res; j++) {
-			// wall	
-			if (grid[i][j] === 1) {
+			if (grid[i][j] === 1) {	// walls
 				ctx.beginPath();
-				ctx.rect(i*(480/levelData.res),j*(480/levelData.res), 
+				ctx.rect(j*(480/levelData.res),i*(480/levelData.res), 
 						(480/levelData.res), (480/levelData.res));
 				ctx.fillStyle = grey;
 				ctx.fill();
 				ctx.closePath();
-			} /* else {
+			} else if (grid[i][j] >= 2 && grid[i][j] <= 5) { // laser starts
 				ctx.beginPath();
-				ctx.rect(i*(480/levelData.res),j*(480/levelData.res), 
-						(480/levelData.res), (480/levelData.res));
-				if ((i + j) % 2 === 0) {
-					ctx.fillStyle = tea;
-				} else {
-					ctx.fillStyle = red;
-				}
+				ctx.arc((j+0.5)*(480/levelData.res),(i+0.5)*(480/levelData.res),
+					5,0, 2*Math.PI);
+				ctx.fillStyle = red;
 				ctx.fill();
 				ctx.closePath();
-			}*/
+			}
 		}
 	}
+	
 }
 
 function drawMe(x, y, res) {
@@ -189,13 +187,13 @@ function updatePositions(delta) {
 
 		if (
 		(keys[0] === 1 || keys[1] === 1 || driftDir === 0 || driftDir === 1)
-				&& grid[Math.floor(me.currX)][Math.floor(me.currY)] !== 0) {
+				&& grid[Math.floor(me.currY)][Math.floor(me.currX)]!== 0) {
 			me.currX = x;
 			me.currY = y;
 		}
 		if (
 		(keys[2] === 1 || keys[3] === 1 || driftDir === 2 || driftDir === 3)
-				&& grid[Math.ceil(me.currX)][Math.ceil(me.currY)] !== 0) {
+				&& grid[Math.ceil(me.currY)][Math.ceil(me.currX)]!== 0) {
 			me.currX = x;
 			me.currY = y;
 		}
