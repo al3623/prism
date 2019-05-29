@@ -31,7 +31,6 @@ var colors = scheme;
 var me = {
 	currX: undefined,
 	currY: undefined,
-	travelled: 0,
 }
 
 var levels = {
@@ -73,7 +72,6 @@ function loadLevel(level) {
 	grid = levelData.levelgrid;
 	me.currX = levelData.startX;
 	me.currY = levelData.startY;
-	me.travelled = 0;
 	drawGrid();
 }
 
@@ -175,6 +173,11 @@ function updatePositions(delta) {
 		} else {
 			// wat
 		}
+
+		me.currX = me.currX < 0 ? 0 : me.currX;
+		me.currY = me.currY < 0 ? 0 : me.currY;
+		me.currX = me.currX > levelData.res-1 ? levelData.res-1 : me.currX;
+		me.currY = me.currY > levelData.res-1 ? levelData.res-1 : me.currY;
 
 		if (drift && driftDist <= epsilon) {
 			me.currX = Math.round(me.currX);
